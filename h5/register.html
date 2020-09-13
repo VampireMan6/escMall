@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" type="text/css" href="css/mui.min.css"/>
+	<title></title>
+	<style>
+		html,body{background-color: #FFFFFF;font-size: 15px;}
+		.wrapper{padding: 40px 16px 16px;box-sizing: border-box;}
+		div .text {font-weight: 600;}
+		.m-b-10 {margin-bottom: 10px;}
+		.m-b-20 {margin-bottom: 20px;}
+		.w-100 {width: 100%;}
+		.image {width: 20px;height: 20px;}
+		.text_c {text-align: center;}
+		.flex {display: flex;}
+		.c-w{color: #000000;}
+		.m-l-10 {margin-left: 10px;}
+		input{flex: 1;border: 0px solid #FFFFFF !important;height: 50px;background-color: #F9F9F9 !important;padding: 0 10px;font-size: 15px;margin-bottom: 0;}
+		.button {margin-top: 50px;line-height: 50px;text-align: center;color: #FFFFFF;font-weight: 600;height: 50px;width: 100%;border-radius: 5px;background-color: #1A87F5;}
+		.button {margin-top: 50px;line-height: 50px;text-align: center;font-weight: 600;height: 50px;width: 100%;border-radius: 5px;}
+		.pop {position: fixed;z-index: 1;top: 0;left: 0;right: 0;bottom: 0;background-color: rgba(0, 0, 0, 0.4);}
+		.popBottom {position: fixed;padding: 16px;box-sizing: border-box;bottom: 0;z-index: 2;height: 50%;width: 100%;background-color: #FFFFFF;display: flex;flex-direction: column;}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div class="wrapper">
+			<div class="text m-b-10">注册</div>
+			<div class="input_div w-100 m-b-10">
+				<input type="text" v-model="account" style="margin-bottom: 0px !important;" maxlength="20" placeholder="用户名必须在5到20个字符之间">
+			</div>
+			<div class="text m-b-10">密码</div>
+			<div class="input_div w-100 m-b-10 flex">
+				<input type="text" v-model="psw" style="margin-bottom: 0px !important;" maxlength="20" placeholder="请输入8-20位密码">
+			</div>
+			<div class="text m-b-10">重复密码</div>
+			<div class="input_div w-100 m-b-10">
+				<input type="text" v-model="pswSure" style="margin-bottom: 0px !important;" maxlength="20" placeholder="请重新输入一次密码">
+			</div>
+			<!-- mibao1 -->
+			<div class="text flex" style="justify-content: space-between;align-items: center;" @click="select(1)">
+				<div class="flex">
+					<p class="c-w">密保1</p>
+					<p class="c-w m-l-10">{{classify1_text}}</p>
+				</div>
+				<img style="width: 18px;height: 18px;margin-bottom: 10px;" src="./images/pro_21.png" mode=""></img>
+			</div>
+			<div class="input_div w-100 m-b-10">
+				<input type="text" v-model="a1" style="margin-bottom: 0px !important;" maxlength="20" placeholder="请输入答案">
+			</div>
+			<!-- 密保2 -->
+			<div class="text flex" style="justify-content: space-between;align-items: center;" @click="select(2)">
+				<div class="flex">
+					<p class="c-w">密保2</p>
+					<p class="c-w m-l-10">{{classify2_text}}</p>
+				</div>
+				<img style="width: 18px;height: 18px;margin-bottom: 10px;" src="./images/pro_21.png" mode=""></img>
+			</div>
+			<div class="input_div w-100 m-b-10">
+				<input type="text" v-model="a2" style="margin-bottom: 0px !important;" maxlength="20" placeholder="请输入答案">
+			</div>
+			<!-- 密保3 -->
+			<div class="text flex" style="justify-content: space-between;align-items: center;" @click="select(3)">
+				<div class="flex">
+					<p class="c-w">密保3</p>
+					<p class="c-w m-l-10">{{classify3_text}}</p>
+				</div>
+				<img style="width: 18px;height: 18px;margin-bottom: 10px;" src="./images/pro_21.png" mode=""></img>
+			</div>
+			<div class="input_div w-100 m-b-10">
+				<input type="text" v-model="a3" style="margin-bottom: 0px !important;" maxlength="20" placeholder="请输入答案">
+			</div>
+			<div class="text m-b-10">邀请码</div>
+			<div class="input_div w-100 m-b-10">
+				<input type="text" v-model="invite" style="margin-bottom: 0px !important;" maxlength="20" placeholder="请输入邀请码">
+			</div>
+			<div class="button m-b-10" @tap="register($event)" data-loading-text="提交中">注册</div>
+			<p class="text_c"><a class="" href="http://fkr.one/escmall">已有账号，立即下载</a></p>
+			<!-- <p class="text-center"><a class="font-blue" :href="download_url">已有账号，立即下载</a></p> -->
+			<!-- <p class="text_c" @click="enter">已有账号，立即下载</p> -->
+			<div v-if="show" class="pop" @tap="close">
+				<div class="popBottom" @tap="noClose">
+					<p style="font-weight: 600;">请选择密保问题</p>
+					<p v-for="(item,i) in classifyList" :key="i" class="c-w" @click="select1(i)">{{item}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/mui.min.js"></script>
+	<script src="js/vue.min.js"></script>
+	<script>
+		var _apiHost = "https://mill-api.escchain.org/";//API接口地址
+		function GetQueryString(name) {
+			var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if (r!=null) return unescape(r[2]); return null;
+		}
+		
+		var app = new Vue({
+			el: '#app',
+			data: {
+				account: "",
+				psw: "",
+				pswSure: "",
+				invite: '',
+				pass: true,
+				passSure: true,
+				download_url: 'http://fkr.one/escmall',
+				classifyList: [],
+				classifyId: [],
+				classify1_text: "请选择密保问题",
+				classify2_text: "请选择密保问题",
+				classify3_text: "请选择密保问题",
+				q1: "",//密保id
+				q2: "",
+				q3: "",
+				a1: "",//答案
+				a2: "",
+				a3: "",
+				tabClick: 999,
+				show: false,
+			},
+			created() {
+				this.invite = GetQueryString("invite");
+				this.loading();
+			},
+			// https://testflight.apple.com/join/leUOevQZ
+			mounted() {
+				var agent = (navigator.userAgent || navigator.vendor || window.opera);
+				if (agent != null) {
+					var agentName = agent.toLowerCase();
+					if(/iphone/i.test(agentName)) {
+						this.download_url = '';
+					}else{
+						this.download_url = 'http://fkr.one/escmall';
+					}
+				}
+			},
+			methods: {
+				loading() {
+					let _self = this;
+					mui.ajax(_apiHost + 'question',{
+						data: {},
+						type: 'get',
+						dataType: 'json',
+						beforeSend() {
+					        // mui(btn).button('loading');
+					    },
+					    complete() {
+					        // mui(btn).button('reset');
+					    },
+							success(data) {
+								if(data.code == 200) {
+									let list = data.data;
+									let srt1 = "";
+									let srt2 = "";
+									list.forEach((item,i)=> {
+										srt1 += item.question + '|';
+										srt2 += item.id + '|';
+									});
+									_self.classifyList = srt1.split("|");
+									_self.classifyId = srt2.split("|");
+								}
+							},
+							error() {
+								mui.toast('注册失败');
+							}
+					})
+				},
+				select(i) {
+					this.show = true;
+					this.tabClick = i;
+				},
+				select1(i) {
+					if(this.tabClick == 1) {
+						this.classify1_text = this.classifyList[i];
+						this.q1 = this.classifyId[i];
+					}else if(this.tabClick == 2) {
+						this.classify2_text = this.classifyList[i];
+						this.q2 = this.classifyId[i];
+					}else if(this.tabClick == 3) {
+						this.classify3_text = this.classifyList[i];
+						this.q3 = this.classifyId[i];
+					};
+					this.close();
+				},
+				close() {
+					this.show = false;
+				},
+				noClose(e) {
+					e.stopPropagation()
+				},
+				// enter() {
+				// 	let self = this;
+				// 	window.location.href = 'http://fkr.one/escmall';
+				// },
+				register(){
+					if(!this.account){
+						mui.toast('请输入账号');return;
+					};
+					if(this.account.length < 5 || this.account.length >= 20) {
+						mui.toast('用户名必须在5到20个字符之间');
+						return
+					};
+					if(this.psw.length < 8) {
+						mui.toast('密码位数不能小于8');
+						return
+					};
+					if(this.psw !== this.pswSure) {
+						mui.toast('两次输入的密码不一致');
+						return
+					};
+					if(this.classify1_text == '请选择密保问题') {
+						mui.toast('请选择密保问题1');
+						return
+					};
+					if(!this.a1) {
+						mui.toast('密保1问题不能为空');
+						return
+					};
+					if(this.classify2_text == '请选择密保问题') {
+						mui.toast('请选择密保问题2');
+						return
+					};
+					if(!this.a2) {
+						mui.toast('密保2问题不能为空');
+						return
+					};
+					if(this.classify3_text == '请选择密保问题') {
+						mui.toast('请选择密保问题3');
+						return
+					};
+					if(!this.a3) {
+						mui.toast('密保3问题不能为空');
+						return
+					};
+					if(this.q1 == this.q2 || this.q1 == this.q3 || this.q2 == this.q3) {
+						mui.toast('密保问题有重复，请重新选择');
+						return
+					};
+					if(!this.invite) {
+						mui.toast('请填写邀请码');
+						return;
+					};
+					var btn = event.currentTarget;
+					let self = this;
+					mui.ajax(_apiHost + 'register/username',{
+						data: {username: this.account,password: this.psw,password2: this.pswSure,invite_code:this.invite,q1:this.q1,q2:this.q2,q3:this.q3,a1:this.a1,a2:this.a2,a3:this.a3},
+						type: 'post',
+						dataType: 'json',
+						beforeSend() {
+					        mui(btn).button('loading');
+					    },
+					    complete() {
+					        mui(btn).button('reset');
+					    },
+							success(data) {
+								if (data.code == 10000) {
+									mui.toast('邀请码错误');
+									return
+								};
+								if (data.code == 10001) {
+									mui.toast('该账户名已存在');
+									return
+								};
+								if(data.code == 200) {
+									mui.toast("注册成功");
+									// 跳转下载链接
+									window.location.href = 'http://fkr.one/escmall';
+								}
+							},
+							error() {
+								mui.toast('注册失败');
+							}
+					})
+				}
+			}
+		});
+	</script>
+</body>
+</html>

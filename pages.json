@@ -1,0 +1,220 @@
+{
+	"pages": [
+		{//登录
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{//注册
+			"path": "pages/login/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},
+		{//首页
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarTextStyle":"white",
+				"navigationStyle": "custom"
+			}
+		},
+		{//首页 商品
+			"path": "pages/home/goods/goods",
+			"style": {
+				"navigationBarTitleText": "矿机详情",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{//首页 商品 填写订单
+			"path": "pages/home/goods/order",
+			"style": {
+				"navigationBarTitleText": "填写订单",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{//首页 商品 填写订单 收货地址
+			"path": "pages/home/address/address",
+			"style": {
+				"navigationBarTitleText": "收货地址",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{//首页 商品 填写订单 收货地址 编辑地址
+			"path": "pages/home/address/newAddress",
+			"style": {
+				"navigationBarTitleText": "编辑地址"
+			}
+		},
+		{//我的
+			"path": "pages/profile/profile",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{//我的 设置
+			"path": "pages/profile/setUp",
+			"style": {
+				"navigationBarTitleText": "设置",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{//我的 设置 修改密码
+			"path": "pages/profile/forgetPsw",
+			"style": {
+				"navigationBarTitleText": "修改密码"
+			}
+		},
+		{//我的 设置 支付密码
+			"path": "pages/profile/paymentPsw",
+			"style": {
+				"navigationBarTitleText": "支付密码"
+			}
+		},
+		{//我的 设置 修改支付密码
+			"path": "pages/profile/paymentPsw2",
+			"style": {
+				"navigationBarTitleText": "修改支付密码"
+			}
+		},
+		{//我的 设置 忘记登录密码
+			"path": "pages/profile/forgetPsw2",
+			"style": {
+				"navigationBarTitleText": "忘记登录密码"
+			}
+		},
+		{//我的 钱包
+			"path": "pages/profile/wallet/wallet",
+			"style": {
+				"navigationBarTitleText": "钱包"
+			}
+		},
+		{//我的 钱包 充值
+			"path": "pages/profile/wallet/recharge",
+			"style": {
+				"navigationBarTitleText": "充值"
+			}
+		},
+		{//我的 钱包 提现
+			"path": "pages/profile/wallet/withdrawal",
+			"style": {
+				"navigationBarTitleText": "提现"
+			}
+		},
+		{//我的 钱包 转账
+			"path": "pages/profile/wallet/transfer",
+			"style": {
+				"navigationBarTitleText": "转账"
+			}
+		},
+		{//我的 钱包 账单
+			"path": "pages/profile/wallet/bill",
+			"style": {
+				"navigationBarTitleText": "我的账单",
+				"app-plus": {
+					"bounce":"none"
+				}
+			}
+		},
+		{//我的 我的团队
+			"path": "pages/profile/myTeam",
+			"style": {
+				"navigationBarTitleText": "我的团队"
+			}
+		},
+		{//我的 关于我们
+			"path": "pages/profile/aboutUs",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		},
+		{//我的 分享应用
+			"path": "pages/profile/share",
+			"style": {
+				"navigationBarTitleText": "分享应用",
+				"navigationStyle": "custom"
+			}
+		},
+		{//我的 帮助中心
+			"path": "pages/profile/help",
+			"style": {
+				"navigationBarTitleText": "帮助中心"
+			}
+		},
+		{//我的 订单
+			"path": "pages/profile/orderMes/noPay",
+			"style": {
+				"navigationBarTitleText": "订单"
+			}
+		},
+		{//我的 待发货
+			"path": "pages/profile/orderMes/noDeliver",
+			"style": {
+				"navigationBarTitleText": "待发货"
+			}
+		},
+		{//我的 待签收
+			"path": "pages/profile/orderMes/noSign",
+			"style": {
+				"navigationBarTitleText": "待签收"
+			}
+		},
+		{//我的 售后
+			"path": "pages/profile/orderMes/afterSale",
+			"style": {
+				"navigationBarTitleText": "售后"
+			}
+		},
+		{//我的 订单 详情
+			"path": "pages/profile/orderMes/orderDetail",
+			"style": {
+				"navigationBarTitleText": "订单详情"
+			}
+		},
+		{//我的 修改头像
+			"path": "pages/profile/headImg",
+			"style": {
+				"navigationBarTitleText": "修改头像"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "钱包",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#CCCCCC",
+		"selectedColor": "#000000",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"fontSize":"11px",
+		"iconWidth": "25px",
+		"spacing":"5px",
+		"list": [
+			{
+				"pagePath": "pages/home/home",
+				"iconPath": "static/tabbar_img/home_0.png",
+				"selectedIconPath": "static/tabbar_img/home_1.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/profile/profile",
+				"iconPath": "static/tabbar_img/profile_0.png",
+				"selectedIconPath": "static/tabbar_img/profile_1.png",
+				"text": "我的"
+			}
+		]
+	}
+}
